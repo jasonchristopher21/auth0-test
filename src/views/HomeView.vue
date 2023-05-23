@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Navbar :handleLogin="login" />
+        <Navbar :handleLogin="login" :handleLogout="logout" />
         <div class="px-10 py-8">
             <div class="font-lexend text-[30px] font-bold">
                 Progress

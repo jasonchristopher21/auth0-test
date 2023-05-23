@@ -3,7 +3,7 @@ export default {
     data() {
         return {}
     },
-    props: ['handleLogin']
+    props: ['handleLogin', 'handleLogout']
 }
 </script>
 
@@ -13,8 +13,14 @@ export default {
             Auth0 Test
         </span>
         <!-- <RouterLink to="/">Home</RouterLink> -->
-        <div class="bg-brick text-white px-7 py-1 text-[18px] font-lexend rounded-full hover:cursor-pointer" @click="handleLogin">
+        <div class="flex"> 
+        <div class="bg-brick text-white px-7 py-1 text-[18px] font-lexend rounded-full hover:cursor-pointer mr-2" @click="handleLogin">
             Login
+        </div>
+        
+        <div class="bg-brick text-white px-7 py-1 text-[18px] font-lexend rounded-full hover:cursor-pointer mr-2" @click="handleLogout">
+            Logout
+        </div>
         </div>
     </div>
 </template>
