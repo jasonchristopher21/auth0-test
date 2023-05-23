@@ -1,33 +1,35 @@
 import { defineStore } from 'pinia';
 import { useAuth0 } from '@auth0/auth0-vue';
+import { ref } from "vue"
 
-const { loginWithRedirect, logout, handleRedirectCallback, isAuthenticated, getUser } = useAuth0();
+export const useAuthStore = defineStore('auth', () => {
+  const authenticatedStatus = ref(false);
+  const user = ref(null);
 
-export const useAuthStore = defineStore('auth', {
-  state: () => ({
-    isAuthenticated: false,
-    user: null,
-  }),
-  actions: {
-    async login() {
-      loginWithRedirect();
-    },
-    async logout() {
-      logout({
-        returnTo: window.location.origin,
-      });
-    },
-    async handleRedirectCallback() {
-      await handleRedirectCallback();
-    },
-    async isAuthenticated() {
-      this.isAuthenticated = await isAuthenticated();
+  const { loginWithRedirect, logout, handleRedirectCallback, isAuthenticated, getUser } = useAuth0();
 
-      if (this.isAuthenticated) {
-        this.user = await getUser();
-      } else {
-        this.user = null;
-      }
-    },
-  },
+  function handleLogin() {
+    loginWithRedirect();
+    updateAuthenticationStatus();
+  }
+
+  function handleLogout() {
+    logout({ returnTo: window.location.origin })
+    updateAuthenticationStatus();
+  }
+
+  function updateAuthenticationStatus() {
+    if (isAuthenticated.value) {
+      user.value = getUser();
+    } else {
+      user.value = null;
+    }
+  }
+
+  return {
+    isAuthenticated,
+    user,
+    handleLogin,
+    handleLogout,
+  }
 });

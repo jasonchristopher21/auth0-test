@@ -1,9 +1,20 @@
 <script>
+import { useAuthStore } from '../stores/authStore';
 export default {
     data() {
-        return {}
+        return {
+            authStore: useAuthStore()
+        }
     },
-    props: ['handleLogin', 'handleLogout']
+    props: ['handleLogin', 'handleLogout'],
+    methods: {
+        loginPinia() {
+            useAuthStore().handleLogin();
+        },
+        logoutPinia() {
+            useAuthStore().handleLogout();
+        }
+    }
 }
 </script>
 
@@ -14,13 +25,14 @@ export default {
         </span>
         <!-- <RouterLink to="/">Home</RouterLink> -->
         <div class="flex"> 
-        <div class="bg-brick text-white px-7 py-1 text-[18px] font-lexend rounded-full hover:cursor-pointer mr-2" @click="handleLogin">
+            
+        <div class="bg-brick text-white px-7 py-1 text-[18px] font-lexend rounded-full hover:cursor-pointer mr-2" @click="logoutPinia" v-if="authStore.isAuthenticated">
+            Logout
+        </div>
+        <div class="bg-brick text-white px-7 py-1 text-[18px] font-lexend rounded-full hover:cursor-pointer mr-2" @click="loginPinia" v-else>
             Login
         </div>
         
-        <div class="bg-brick text-white px-7 py-1 text-[18px] font-lexend rounded-full hover:cursor-pointer mr-2" @click="handleLogout">
-            Logout
-        </div>
         </div>
     </div>
 </template>
