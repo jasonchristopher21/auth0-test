@@ -14,8 +14,8 @@ const app = createApp(App)
 app.use(createPinia())
 app.use(
   createAuth0({
-    domain: 'dev-cioju4o7r00ule5j.us.auth0.com',
-    clientId: 'R9mqxjLUFpFHzxSfYdMl859yXayHFUK4',
+    domain: `${import.meta.env.VITE_AUTH0_DOMAIN}`,
+    clientId: `${import.meta.env.VITE_AUTH0_CLIENT_ID}`,
     authorizationParams: {
       redirect_uri: window.location.origin
     }

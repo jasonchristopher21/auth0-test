@@ -45,7 +45,7 @@ export default {
             createAccount: async () => {
                 await useManagementTokenStore().fetchManagementApiToken();
                 const api_token = useManagementTokenStore().token;
-                axios.post("https://dev-cioju4o7r00ule5j.us.auth0.com/api/v2/users", {
+                axios.post(`${import.meta.env.VITE_AUTH0_API_URL}users`, {
                     "email": email.value,
                     "password": password.value,
                     "connection": "Username-Password-Authentication"
