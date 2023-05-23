@@ -26,10 +26,10 @@ export default {
         <!-- <RouterLink to="/">Home</RouterLink> -->
         <div class="flex"> 
             
-        <div class="bg-brick text-white px-7 py-1 text-[18px] font-lexend rounded-full hover:cursor-pointer mr-2" @click="logoutPinia" v-if="authStore.isAuthenticated">
+        <div class="bg-brick text-white px-7 py-1 text-[18px] font-lexend rounded-full hover:cursor-pointer mr-2 hover:scale-105 transition-all" @click="logoutPinia" v-if="authStore.isAuthenticated">
             Logout
         </div>
-        <div class="bg-brick text-white px-7 py-1 text-[18px] font-lexend rounded-full hover:cursor-pointer mr-2" @click="loginPinia" v-else>
+        <div class="bg-brick text-white px-7 py-1 text-[18px] font-lexend rounded-full hover:cursor-pointer mr-2 hover:scale-105 transition-all" @click="loginPinia" v-else>
             Login
         </div>
         
