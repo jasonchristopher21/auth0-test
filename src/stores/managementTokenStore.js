@@ -93,6 +93,7 @@ export const useManagementTokenStore = defineStore('managementToken', () => {
 
   return {
     getToken,
+    fetchManagementApiToken,
     token,
     exp
   }

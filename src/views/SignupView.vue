@@ -15,7 +15,7 @@
                 <input v-model="password" type="password" class="py-3 px-7 rounded-full border border-gray-500 w-[40%]"
                     placeholder="Password">
             </div>
-            <div class="bg-brick text-white px-10 py-2 font-lexend text-[20px] rounded-full w-[17rem] mt-5"
+            <div class="bg-brick text-white px-10 py-2 font-lexend text-[20px] rounded-full w-[17rem] mt-5 hover:cursor-pointer hover:opacity-80 transition-all"
                 @click="createAccount">
                 Create an Account
             </div>
@@ -36,13 +36,14 @@ export default {
         const email = ref("");
         const password = ref("");
         const name = ref("");
+        const successful = ref(false);
 
         return {
             name,
             email,
             password,
-            createAccount: () => {
-                useManagementTokenStore().getToken();
+            createAccount: async () => {
+                await useManagementTokenStore().fetchManagementApiToken();
                 const api_token = useManagementTokenStore().token;
                 axios.post("https://dev-cioju4o7r00ule5j.us.auth0.com/api/v2/users", {
                     "email": email.value,
@@ -55,6 +56,8 @@ export default {
                     }
                 }).then((response) => {
                     console.log(response.data);
+                    successful.value = true;
+                    window.location.href="/forcelogin"
                 }).catch((err) => {
                     console.error(err);
                 })
