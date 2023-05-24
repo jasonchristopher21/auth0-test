@@ -1,5 +1,6 @@
 <script>
 import { useAuthStore } from '../stores/authStore';
+import { RouterLink } from 'vue-router';
 export default {
     data() {
         return {
@@ -13,6 +14,7 @@ export default {
             useAuthStore().handleLogin();
         },
         logoutPinia() {
+            this.isExpanded = false;
             useAuthStore().handleLogout();
         }
     }
@@ -21,9 +23,11 @@ export default {
 
 <template>
     <div class="flex navbar px-10 py-5 bg-blue w-full justify-between">
-        <span class="font-lexend xs:text-[20px] text-[25px] text-white">
-            Auth0 Test
-        </span>
+        <RouterLink to="/">
+            <span class="font-lexend xs:text-[20px] text-[25px] text-white">
+                Auth0 Test
+            </span>
+        </RouterLink>
         <!-- <RouterLink to="/">Home</RouterLink> -->
         <div class="flex">
 
@@ -50,15 +54,17 @@ export default {
         leave-class="translate-y-0 scale-y-100 opacity-100" leave-to-class="-translate-y-1/2 scale-y-0 opacity-0">
         <div class="relative" v-show="isExpanded">
             <div class="flex flex-col absolute top-2 right-2 z-10 transition-all">
-                <div
-                    class="pl-10 py-3 pr-20 bg-white text-lg drop-shadow hover:cursor-pointer hover:scale-105 transition-all rounded-t-xl hover:z-20 hover:rounded-xl">
-                    Edit Profile
-                </div>
-                <div
-                    class="pl-10 py-3 pr-20 bg-white text-lg drop-shadow hover:cursor-pointer hover:scale-105 transition-all hover:z-20 hover:rounded-xl">
+                <RouterLink to="/edit/profile">
+                    <div class="pl-10 py-3 pr-20 bg-white text-md drop-shadow hover:cursor-pointer hover:scale-105 transition-all rounded-t-xl hover:z-20 hover:rounded-xl"
+                        @click="isExpanded = false">
+                        Edit Profile
+                    </div>
+                </RouterLink>
+                <div class="pl-10 py-3 pr-20 bg-white text-md drop-shadow hover:cursor-pointer hover:scale-105 transition-all hover:z-20 hover:rounded-xl"
+                    @click="isExpanded = false">
                     Manage Accounts
                 </div>
-                <div class="pl-10 py-3 pr-20 bg-brick text-white font-lexend font-bold text-lg drop-shadow hover:cursor-pointer  hover:scale-105 rounded-b-xl transition-all hover:z-20 hover:rounded-xl"
+                <div class="pl-10 py-3 pr-20 bg-brick text-white font-lexend font-bold text-md drop-shadow hover:cursor-pointer  hover:scale-105 rounded-b-xl transition-all hover:z-20 hover:rounded-xl"
                     @click="logoutPinia">
                     Logout
                 </div>
@@ -67,6 +73,8 @@ export default {
     </transition>
 </template>
 
-<style>.ease-custom {
+<style>
+.ease-custom {
     transition-timing-function: cubic-bezier(.61, -0.53, .43, 1.43);
-}</style>
+}
+</style>
