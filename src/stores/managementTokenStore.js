@@ -7,13 +7,12 @@ export const useManagementTokenStore = defineStore('managementToken', () => {
   const exp = ref(null)
 
   async function fetchManagementApiToken() {
-    // await axios.request(options)
     await axios
       .post(
         `https://${import.meta.env.VITE_AUTH0_DOMAIN}/oauth/token`,
         {
-          client_id: `${import.meta.env.VITE_AUTH0_CLIENT_ID}`,
-          client_secret: `${import.meta.env.VITE_AUTH0_CLIENT_SECRET}`,
+          client_id: `${import.meta.env.VITE_AUTH0_API_CLIENT_ID}`,
+          client_secret: `${import.meta.env.VITE_AUTH0_API_CLIENT_SECRET}`,
           audience: `${import.meta.env.VITE_AUTH0_API_URL}`,
           grant_type: 'client_credentials'
         },
@@ -67,10 +66,10 @@ export const useManagementTokenStore = defineStore('managementToken', () => {
   }
 
   async function getToken() {
-    if (!token.value) {
+    if (!token) {
       await fetchManagementApiToken()
     }
-    return token.value
+    return token
   }
 
   return {
