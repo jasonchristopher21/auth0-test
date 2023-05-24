@@ -16,11 +16,13 @@
             <div class="text-[18px] mt-2">
                 You can create an account here! (uses Auth0 Management API)
             </div>
+            <div class="w-[17rem]">
             <RouterLink to="/signup">
-                <div class="bg-brick text-white px-10 py-2 font-lexend text-[20px] rounded-full w-[17rem] mt-5">
+                <div class="bg-brick text-white px-10 py-2 font-lexend text-[20px] rounded-full mt-5 hover:opacity-80 transition-all">
                     Create an Account
                 </div>
             </RouterLink>
+        </div>
         </div>
     </div>
 </template>

@@ -3,14 +3,11 @@ import { useAuth0 } from '@auth0/auth0-vue';
 import { ref } from "vue"
 
 export const useAuthStore = defineStore('auth', () => {
-  const authenticatedStatus = ref(false);
-  const user = ref(null);
 
-  const { loginWithRedirect, logout, handleRedirectCallback, isAuthenticated, getUser } = useAuth0();
+  const { loginWithRedirect, logout, handleRedirectCallback, isAuthenticated, user } = useAuth0();
 
   function handleLogin() {
-    loginWithRedirect();
-    updateAuthenticationStatus();
+    loginWithRedirect().then(() => updateAuthenticationStatus);
   }
 
   function handleLogout() {
@@ -19,9 +16,11 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   function updateAuthenticationStatus() {
-    if (isAuthenticated.value) {
+    if (isAuthenticated) {
+      console.log("Is authenticated")
       user.value = getUser();
     } else {
+      console.log("Not authenticated")
       user.value = null;
     }
   }
