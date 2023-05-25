@@ -23,17 +23,38 @@
                     </div>
                 </RouterLink>
                 <div class="text-red border border-red px-10 py-2 rounded-full w-[13rem] hover:cursor-pointer hover:opacity-80 hover:bg-red hover:text-white hover:border-red transition-all"
-                    v-if="type === 'other'" @click="removeAccount">
+                    v-if="type === 'other'" @click="open = true">
                     Delete Account
                 </div>
             </div>
         </div>
     </div>
+
+    <Teleport to="body">
+        <div v-if="open" class="fixed z-50 top-0 bg-[#00000040] w-full h-full backdrop-blur-sm dropshadow" @click="open=false">
+            <div class="bg-white mt-[7rem] w-[24rem] h-[74%] m-auto rounded-2xl p-10 align-center">
+                
+                <img :src="warning" class="w-3/4 mx-auto" />
+                <p class="text-center mx-3 text-lg font-bold">
+                    Warning! Deleting an account is an irreversible action
+                </p>
+                <div class="text-red border border-red px-10 py-2 rounded-full w-[13rem] hover:cursor-pointer hover:opacity-80 hover:bg-red hover:text-white hover:border-red transition-all mt-5 mx-auto text-center"
+                    v-if="type === 'other'" @click="removeAccount">
+                    Delete Account
+                </div>
+                <div class="text-blue border border-blue px-10 py-2 rounded-full w-[13rem] hover:cursor-pointer hover:opacity-80 hover:bg-cyan hover:text-white hover:border-cyan transition-all mx-auto text-center mt-3"
+                    v-if="type === 'other'" @click="open = false">
+                    Cancel
+                </div>
+            </div>
+        </div>
+    </Teleport>
 </template>
 
 <script>
-import { computed, toRefs } from 'vue'
+import { ref, computed, toRefs } from 'vue'
 import { RouterLink } from 'vue-router';
+import warning from "../assets/warning.png"
 export default {
     props: {
         type: String,
@@ -44,14 +65,19 @@ export default {
     },
     setup(props) {
         const { type, data, deleteLogic } = toRefs(props);
+        const open = ref(false);
         function removeAccount() {
             deleteLogic.value(data.value.user_id)
+            open.value = false
+            window.location.reload()
         }
         return {
             type,
             data,
             deleteLogic,
-            removeAccount
+            removeAccount,
+            open,
+            warning,
         };
     },
     components: { RouterLink }

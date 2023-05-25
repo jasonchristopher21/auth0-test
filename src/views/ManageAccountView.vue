@@ -10,8 +10,9 @@
                 Your Account
             </div>
             <div v-if="userDetails">
-            <AccountCard type="this" :data="userDetails.data" />
-        </div>
+                <AccountCard type="this" :data="userDetails.data" />
+            </div>
+
             <div class="flex justify-between mt-8 mb-5">
                 <div class="font-lexend text-[20px] font-bold my-auto text-dgray">
                     Manage Other Accounts
@@ -32,13 +33,15 @@
             <div v-if="isUserFetched && !userDetails.data.user_metadata.children.length">
                 You don't have any accounts under you
             </div>
+
             <div v-if="isUserFetched && userDetails.data.user_metadata.role !== 'admin'">
                 You are not authorised to create or manage other accounts
             </div>
-            <div v-if="isUserFetched && userDetails.data.user_metadata.children.length"
-                v-for="data in accountsManaged">
-                <AccountCard :data="data" type="other" :deleteLogic="deleteUser"/>
+
+            <div v-if="isUserFetched && userDetails.data.user_metadata.children.length" v-for="data in accountsManaged">
+                <AccountCard :data="data" type="other" :deleteLogic="deleteUser" />
             </div>
+
         </div>
     </div>
 </template>
@@ -58,6 +61,7 @@ export default {
         const userDetails = ref(null);
         const isUserFetched = ref(false);
         const accountsManaged = ref([]);
+        const open = ref(false);
 
         async function fetchUsers() {
             const managementTokenStore = useManagementTokenStore();
@@ -100,7 +104,7 @@ export default {
                 headers: {
                     'Content-Type': 'application/json',
                     authorization: 'Bearer ' + api_token,
-                }    
+                }
             }).then((response) => {
                 console.log(`user ${userId} deleted`)
                 let metadata = userDetails.value.data.user_metadata
@@ -128,6 +132,7 @@ export default {
             isUserFetched,
             accountsManaged,
             deleteUser,
+            open,
         };
     },
     components: {

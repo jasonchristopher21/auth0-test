@@ -24,6 +24,31 @@
             </div>
         </div>
     </div>
+
+    <Teleport to="body">
+        <div v-if="open" class="fixed z-50 top-0 bg-[#00000040] w-full h-full backdrop-blur-sm dropshadow"
+            @click="open = false">
+            <div class="bg-white mt-[7rem] w-[24rem] h-[74%] m-auto rounded-2xl p-10 pt-20 align-center">
+
+                <img :src="success" class="w-1/2 mx-auto" />
+                <p class="text-center mx-3 mt-8 text-lg font-bold">
+                    You have successfully created a new account!
+                </p>
+                <RouterLink to="/createacct">
+                    <div
+                        class="text-green border border-green px-10 py-3 rounded-full w-[19rem] hover:cursor-pointer hover:opacity-80 hover:bg-green hover:text-white hover:border-green transition-all mt-7 mx-auto text-center">
+                        Create Another Account
+                    </div>
+                </RouterLink>
+                <RouterLink to="/manage">
+                    <div class="text-blue border border-blue px-10 py-3 rounded-full w-[19rem] hover:cursor-pointer hover:opacity-80 hover:bg-cyan hover:text-white hover:border-cyan transition-all mx-auto text-center mt-3"
+                        @click="open = false">
+                        Back to Manage Accounts
+                    </div>
+                </RouterLink>
+            </div>
+        </div>
+    </Teleport>
 </template>
     
 <script>
@@ -33,6 +58,7 @@ import { useManagementTokenStore } from "../stores/managementTokenStore";
 import axios from 'axios';
 import { ref } from 'vue';
 import { useAuthStore } from '../stores/authStore';
+import success from "../assets/success.png";
 
 export default {
     setup() {
@@ -42,11 +68,14 @@ export default {
         const name = ref("");
         const successful = ref(false);
         const authStore = useAuthStore();
+        const open = ref(false);
 
         return {
+            success,
             name,
             email,
             role,
+            open,
             password,
             createAccount: async () => {
                 await useManagementTokenStore().fetchManagementApiToken();
@@ -96,10 +125,15 @@ export default {
                             authorization: 'Bearer ' + api_token,
                         }
                     })
+                }).then(() => {
+                    open.value = true;
                 }).catch((err) => {
                     console.error(err);
                 })
             },
+            reload: () => {
+                window.location.reload();
+            }
         };
     },
     components: {
