@@ -30,18 +30,22 @@
             @click="open = false">
             <div class="bg-white mt-[7rem] w-[24rem] h-[74%] m-auto rounded-2xl p-10 pt-20 align-center">
 
-                <img :src="success" class="w-1/2 mx-auto" />
-                <p class="text-center mx-3 mt-8 text-lg font-bold">
+                <img :src="success" class="w-2/5 mx-auto" />
+                <p class="text-center mx-3 mt-5 text-lg font-bold">
                     You have successfully created a new account!
+                </p>
+
+                <p class="text-center mx-3 mt-2 text-md">
+                    An email containing a password reset link will be sent to the specified address
                 </p>
                 <RouterLink to="/createacct">
                     <div
-                        class="text-green border border-green px-10 py-3 rounded-full w-[19rem] hover:cursor-pointer hover:opacity-80 hover:bg-green hover:text-white hover:border-green transition-all mt-7 mx-auto text-center">
+                        class="text-green border border-green px-8 py-2 rounded-full w-[19rem] hover:cursor-pointer hover:opacity-80 hover:bg-green hover:text-white hover:border-green transition-all mt-7 mx-auto text-center">
                         Create Another Account
                     </div>
                 </RouterLink>
                 <RouterLink to="/manage">
-                    <div class="text-blue border border-blue px-10 py-3 rounded-full w-[19rem] hover:cursor-pointer hover:opacity-80 hover:bg-cyan hover:text-white hover:border-cyan transition-all mx-auto text-center mt-3"
+                    <div class="text-blue border border-blue px-8 py-2 rounded-full w-[19rem] hover:cursor-pointer hover:opacity-80 hover:bg-cyan hover:text-white hover:border-cyan transition-all mx-auto text-center mt-3"
                         @click="open = false">
                         Back to Manage Accounts
                     </div>
@@ -88,6 +92,7 @@ export default {
                         "role": role.value,
                         "children": []
                     },
+                    "verify_email": false,
                     "connection": "Username-Password-Authentication"
                 }, {
                     headers: {
@@ -115,16 +120,19 @@ export default {
                                     authorization: 'Bearer ' + api_token,
                                 }
                             })
+                        }).then(() => {
+                            axios.post(`https://${import.meta.env.VITE_AUTH0_DOMAIN}/dbconnections/change_password`,
+                                { "email": email.value, "connection": "Username-Password-Authentication" }, {
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    authorization: 'Bearer ' + api_token,
+                                }
+                            })
+                        }).then((response) => {
+                            console.log("password reset email sent")
                         }).catch((err) => {
                             console.error(err)
                         })
-
-                    axios.post(`${import.meta.env.VITE_AUTH0_API_URL}tickets/password-change`, { "user_id": response.data.user_id }, {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            authorization: 'Bearer ' + api_token,
-                        }
-                    })
                 }).then(() => {
                     open.value = true;
                 }).catch((err) => {

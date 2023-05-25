@@ -118,6 +118,8 @@ export default {
                         authorization: 'Bearer ' + api_token,
                     }
                 })
+            }).then(() => {
+                window.location.reload()
             }).catch((err) => {
                 console.error(err)
             })

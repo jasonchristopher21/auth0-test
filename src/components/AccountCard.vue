@@ -69,7 +69,6 @@ export default {
         function removeAccount() {
             deleteLogic.value(data.value.user_id)
             open.value = false
-            window.location.reload()
         }
         return {
             type,
