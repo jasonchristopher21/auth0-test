@@ -9,8 +9,9 @@
             <div class="font-lexend text-[20px] font-bold mt-5 text-dgray">
                 Your Account
             </div>
+            <div v-if="userDetails">
             <AccountCard type="this" :data="userDetails.data" />
-
+        </div>
             <div class="flex justify-between mt-8 mb-5">
                 <div class="font-lexend text-[20px] font-bold my-auto text-dgray">
                     Manage Other Accounts
@@ -36,7 +37,7 @@
             </div>
             <div v-if="isUserFetched && userDetails.data.user_metadata.children.length"
                 v-for="data in accountsManaged">
-                <AccountCard :data="data" type="other" />
+                <AccountCard :data="data" type="other" :deleteLogic="deleteUser"/>
             </div>
         </div>
     </div>
@@ -91,6 +92,32 @@ export default {
                 })
         }
 
+        async function deleteUser(userId) {
+            const managementTokenStore = useManagementTokenStore();
+            await managementTokenStore.fetchManagementApiToken();
+            const api_token = managementTokenStore.token;
+            await axios.delete(`${import.meta.env.VITE_AUTH0_API_URL}users/${userId}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    authorization: 'Bearer ' + api_token,
+                }    
+            }).then((response) => {
+                console.log(`user ${userId} deleted`)
+                let metadata = userDetails.value.data.user_metadata
+                metadata.children = metadata.children.filter(id => id !== userId)
+                axios.patch(`${import.meta.env.VITE_AUTH0_API_URL}users/${authStore.user.sub}`,
+                    {
+                        "user_metadata": metadata
+                    }, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        authorization: 'Bearer ' + api_token,
+                    }
+                })
+            }).catch((err) => {
+                console.error(err)
+            })
+        }
 
         fetchUsers();
 
@@ -100,6 +127,7 @@ export default {
             fetchUsers,
             isUserFetched,
             accountsManaged,
+            deleteUser,
         };
     },
     components: {

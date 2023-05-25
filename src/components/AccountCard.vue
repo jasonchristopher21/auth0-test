@@ -35,11 +35,17 @@
 import { computed, toRefs } from 'vue'
 import { RouterLink } from 'vue-router';
 export default {
-    props: ['type', 'data', 'deleteLogic'],
+    props: {
+        type: String,
+        data: Object,
+        deleteLogic: {
+            type: Function
+        }
+    },
     setup(props) {
         const { type, data, deleteLogic } = toRefs(props);
         function removeAccount() {
-            deleteLogic(data.user_id)
+            deleteLogic.value(data.value.user_id)
         }
         return {
             type,
