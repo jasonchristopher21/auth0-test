@@ -5,7 +5,10 @@ import ForceLoginView from "../views/ForceLoginView.vue"
 import EditProfileView from "../views/EditProfileView.vue"
 import PleaseLoginAgainView from "../views/PleaseLoginAgainView.vue"
 import EditPasswordView from "../views/EditPasswordView.vue"
+import ManageAccountView from "../views/ManageAccountView.vue"
+import CreateAccountsView from "../views/CreateAccountsView.vue"
 
+import { authGuard } from '@auth0/auth0-vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -28,7 +31,8 @@ const router = createRouter({
     {
       path: '/edit/profile',
       name: 'edit profile',
-      component: EditProfileView
+      component: EditProfileView,
+      beforeEnter: authGuard
     },
     {
       path: '/updatesuccessful',
@@ -38,8 +42,23 @@ const router = createRouter({
     {
       path: '/edit/password', 
       name: 'edit password',
-      component: EditPasswordView
-    }
+      component: EditPasswordView,
+      beforeEnter: authGuard
+    },
+    {
+      path: '/manage',
+      name: 'Manage accounts',
+      component: ManageAccountView,
+      beforeEnter: authGuard
+    },
+    
+    {
+      path: '/createacct',
+      name: 'Create accounts',
+      component: CreateAccountsView,
+      beforeEnter: authGuard
+    },
+    
   ]
 })
 
