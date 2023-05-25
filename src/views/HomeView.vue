@@ -31,11 +31,11 @@
 import { useAuth0 } from '@auth0/auth0-vue';
 import Navbar from '../components/Navbar.vue';
 import { RouterLink } from "vue-router";
+import AccountCard from '../components/AccountCard.vue';
 
 export default {
     setup() {
         const { loginWithRedirect, logout } = useAuth0();
-
         return {
             login: () => {
                 loginWithRedirect();
@@ -51,6 +51,7 @@ export default {
     },
     components: {
         Navbar,
+        AccountCard,
     }
 };
 </script>

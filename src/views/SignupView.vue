@@ -48,6 +48,11 @@ export default {
                 axios.post(`${import.meta.env.VITE_AUTH0_API_URL}users`, {
                     "email": email.value,
                     "password": password.value,
+                    "name": name.value,
+                    "user_metadata": {
+                        "role": "admin",
+                        "children": []
+                    },
                     "connection": "Username-Password-Authentication"
                 }, {
                     headers: {

@@ -48,11 +48,11 @@ export default {
         </div>
     </div>
 
-    <transition enter-active-class="transform transition duration-500 ease-custom"
+    <transition enter-active-class="transform transition duration-700 ease-custom"
         enter-class="-translate-y-1/2 scale-y-0 opacity-0" enter-to-class="translate-y-0 scale-y-100 opacity-100"
-        leave-active-class="transform transition duration-300 ease-custom"
+        leave-active-class="transform transition-all duration-700 ease-custom"
         leave-class="translate-y-0 scale-y-100 opacity-100" leave-to-class="-translate-y-1/2 scale-y-0 opacity-0">
-        <div class="relative" v-show="isExpanded">
+        <div class="relative z-10" v-show="isExpanded">
             <div class="flex flex-col absolute top-2 right-2 z-10 transition-all">
                 <RouterLink to="/edit/profile">
                     <div class="pl-10 py-3 pr-20 bg-white text-md drop-shadow hover:cursor-pointer hover:scale-105 transition-all rounded-t-xl hover:z-20 hover:rounded-xl"
@@ -60,10 +60,12 @@ export default {
                         Edit Profile
                     </div>
                 </RouterLink>
-                <div class="pl-10 py-3 pr-20 bg-white text-md drop-shadow hover:cursor-pointer hover:scale-105 transition-all hover:z-20 hover:rounded-xl"
-                    @click="isExpanded = false">
-                    Manage Accounts
-                </div>
+                <RouterLink to="/manage">
+                    <div class="pl-10 py-3 pr-20 bg-white text-md drop-shadow hover:cursor-pointer hover:scale-105 transition-all hover:z-20 hover:rounded-xl"
+                        @click="isExpanded = false">
+                        Manage Accounts
+                    </div>
+                </RouterLink>
                 <div class="pl-10 py-3 pr-20 bg-brick text-white font-lexend font-bold text-md drop-shadow hover:cursor-pointer  hover:scale-105 rounded-b-xl transition-all hover:z-20 hover:rounded-xl"
                     @click="logoutPinia">
                     Logout
